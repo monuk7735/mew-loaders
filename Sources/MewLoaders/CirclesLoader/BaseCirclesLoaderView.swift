@@ -1,5 +1,5 @@
 //
-//  BaseCircleLoaderView.swift
+//  BaseCirclesLoaderView.swift
 //  MewLoaders
 //
 //  Created by Monu Kumar on 10/02/25.
@@ -7,20 +7,19 @@
 
 import SwiftUI
 
-
-struct BaseCircleLoaderView<Content: View>: View {
+public struct BaseCirclesLoaderView<Content: View>: View {
     
-    var items: [Content]
-    var isLoading: Bool
+    public var items: [Content]
+    public var isLoading: Bool = true
     
-    var duration: TimeInterval = 5
+    public var duration: TimeInterval = 5
     
-    @State private var zAngle: Double = 0
+    @State private var angle: Double = 0
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geometry in
             
-            var size = min(
+            let size = min(
                 geometry.size.width,
                 geometry.size.height
             ) - 20
@@ -33,7 +32,7 @@ struct BaseCircleLoaderView<Content: View>: View {
                     items[index]
                         .rotation3DEffect(
                             .degrees(
-                                Double(index * 360) / Double(items.count) + zAngle
+                                Double(index * 360) / Double(items.count) + angle
                             ),
                             axis: (x: 1.0, y: 0.0, z: 0.0)
                         )
@@ -56,7 +55,7 @@ struct BaseCircleLoaderView<Content: View>: View {
                 width: size,
                 height: size
             )
-            .rotationEffect(.degrees(-zAngle / Double(items.count)))
+            .rotationEffect(.degrees(-angle / Double(items.count)))
             .frame(
                 maxWidth: .infinity,
                 maxHeight: .infinity
@@ -70,11 +69,11 @@ struct BaseCircleLoaderView<Content: View>: View {
                     )
                     .repeatForever(autoreverses: false)
                 ) {
-                    zAngle = -720
+                    angle = -720
                 }
             } else {
                 withAnimation {
-                    zAngle = 0
+                    angle = 0
                 }
             }
         }
@@ -86,42 +85,8 @@ struct BaseCircleLoaderView<Content: View>: View {
                     )
                     .repeatForever(autoreverses: false)
                 ) {
-                    zAngle = -720
+                    angle = -720
                 }
-            }
-        }
-    }
-}
-
-struct BaseCircleLoaderView_Preview: View {
-    
-    @State private var isLoading: Bool = true
-    
-    var body: some View {
-        VStack {
-            if #available(iOS 15.0, *) {
-                BaseCircleLoaderView(
-                    items: Array(
-                        repeating: AsyncImage(
-                            url: URL(string: "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"),
-                            content: { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .clipShape(Circle())
-                            },
-                            placeholder: {
-                                ProgressView()
-                            }
-                        ),
-                        count: 55
-                    ),
-                    isLoading: isLoading
-                )
-            }
-            
-            Button("Toggle") {
-                isLoading.toggle()
             }
         }
     }
@@ -129,5 +94,12 @@ struct BaseCircleLoaderView_Preview: View {
 
 
 #Preview {
-    BaseCircleLoaderView_Preview()
+    BaseCirclesLoaderView(
+        items: Array(
+            repeating: Image(
+                systemName: "circle.fill"
+            ).resizable().scaledToFit().padding(16),
+            count: 10
+        )
+    )
 }

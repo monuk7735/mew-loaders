@@ -26,7 +26,7 @@ public struct GradientCircleLoaderView: View {
             endPoint: .bottom
         )
         .mask {
-            BaseCircleLoaderView(
+            BaseCirclesLoaderView(
                 items: Array(
                     repeating: Circle(),
                     count: 25
