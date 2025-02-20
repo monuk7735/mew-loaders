@@ -11,14 +11,14 @@ let package = Package(
     products: [
         .library(
             name: "MewLoaders",
-            targets: ["MewLoaders"]),
+            targets: [
+                "MewLoaders"
+            ]
+        ),
     ],
     targets: [
         .target(
-            name: "MewLoaders"),
-        .testTarget(
-            name: "MewLoadersTests",
-            dependencies: ["MewLoaders"]
+            name: "MewLoaders"
         ),
     ]
 )
