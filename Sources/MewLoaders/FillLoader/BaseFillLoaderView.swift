@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 15.0, watchOS 8.0, tvOS 15.0, macOS 12.0, *)
 struct BaseFillLoaderView<Content: View>: View {
     
     var content: () -> Content
@@ -22,7 +22,7 @@ struct BaseFillLoaderView<Content: View>: View {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
+    if #available(iOS 15.0, watchOS 8.0, tvOS 15.0, macOS 12.0, *) {
         BaseFillLoaderView(
 //            overlay: {
 //                Text("fff")

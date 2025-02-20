@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
+@available(iOS 15.0, watchOS 8.0, tvOS 15.0, macOS 12.0, *)
 public struct GradientCircleLoaderView: View {
     
     public var isLoading: Bool
@@ -39,7 +39,7 @@ public struct GradientCircleLoaderView: View {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
+    if #available(iOS 15.0, watchOS 8.0, tvOS 15.0, macOS 12.0, *) {
         GradientCircleLoaderView(isLoading: true)
     } else {
         // Fallback on earlier versions
