@@ -1,7 +1,9 @@
 Pod::Spec.new do |spec|
   spec.name         = "MewLoaders"
-  spec.version      = "0.1.0"
+  spec.version      = "0.1.1"
   spec.summary      = "Mew Loaders is a SwiftUI package that brings unique, quirky, and highly customizable loading animations to your iOS apps"
+  
+  spec.swift_version = '5.4'
 
   spec.description  = <<-DESC
   This is a SwiftUI package that brings unique, quirky, and highly customizable loading animations to your iOS apps. Keep reading for how to use and customise. Keep watching for incoming loaders. Code On!!
