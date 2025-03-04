@@ -1,5 +1,5 @@
 //
-//  GradientCircleLoaderView.swift
+//  GradientCirclesLoaderView.swift
 //  MewLoaders
 //
 //  Created by Monu Kumar on 11/02/25.
@@ -7,41 +7,53 @@
 
 import SwiftUI
 
-@available(iOS 15.0, watchOS 8.0, tvOS 15.0, macOS 12.0, *)
-public struct GradientCircleLoaderView: View {
+public struct GradientCirclesLoaderView: View {
     
-    public var isLoading: Bool
+    public init(
+        colors: [Color] = [
+            .blue,
+            .yellow,
+            .purple
+        ],
+        count: Int = 10,
+        duration: TimeInterval = 5,
+        isLoading: Bool = true
+    ) {
+        self.colors = colors
+        self.count = count
+        self.isLoading = isLoading
+        self.duration = duration
+    }
     
-    public var duration: TimeInterval = 5
+    private var colors: [Color]
+    public var count: Int
+    private var duration: TimeInterval
+    
+    private var isLoading: Bool
     
     public var body: some View {
-        LinearGradient(
-            colors: [
-                .red,
-                .blue,
-                .yellow,
-                .purple
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .mask {
-            BaseCirclesLoaderView(
-                items: Array(
-                    repeating: Circle(),
-                    count: 25
+        BaseCirclesLoaderView(
+            items: Array(
+                repeating: LinearGradient(
+                    colors: colors,
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .scaledToFit()
+                .clipShape(Circle())
+                .padding(
+                    10
                 ),
-                isLoading: isLoading,
-                duration: duration
-            )
-        }
+                count: count
+            ),
+            duration: duration,
+            isLoading: isLoading
+        )
     }
 }
 
 #Preview {
-    if #available(iOS 15.0, watchOS 8.0, tvOS 15.0, macOS 12.0, *) {
-        GradientCircleLoaderView(isLoading: true)
-    } else {
-        // Fallback on earlier versions
-    }
+    GradientCirclesLoaderView(
+        isLoading: true
+    )
 }

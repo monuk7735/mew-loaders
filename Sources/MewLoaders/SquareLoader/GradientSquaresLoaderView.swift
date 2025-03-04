@@ -9,15 +9,23 @@ import SwiftUI
 
 public struct GradientSquaresLoaderView: View {
     
-    public var colors: [Color] = [
-        .green
-    ]
+    public init(
+        colors: [Color],
+        count: Int = 10,
+        duration: TimeInterval = 10,
+        isLoading: Bool = true
+    ) {
+        self.colors = colors
+        self.count = count
+        self.isLoading = isLoading
+        self.duration = duration
+    }
     
-    public var count: Int = 10
+    private var colors: [Color]
+    private var count: Int
+    private var duration: TimeInterval
     
-    public var isLoading: Bool
-    
-    public var duration: TimeInterval = 10
+    private var isLoading: Bool
     
     public var body: some View {
         BaseSquaresLoaderView(
@@ -28,8 +36,8 @@ public struct GradientSquaresLoaderView: View {
                     endPoint: .trailing
                 )
             },
-            isLoading: isLoading,
-            duration: duration
+            duration: duration,
+            isLoading: isLoading
         )
     }
 }
@@ -42,9 +50,7 @@ public struct GradientSquaresLoaderView: View {
         GradientSquaresLoaderView(
             colors: [
                 .blue
-            ],
-            count: 12,
-            isLoading: true
+            ]
         )
         .padding()
     }

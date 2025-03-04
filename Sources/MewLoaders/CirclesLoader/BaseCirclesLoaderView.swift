@@ -9,10 +9,21 @@ import SwiftUI
 
 public struct BaseCirclesLoaderView<Content: View>: View {
     
-    public var items: [Content]
-    public var isLoading: Bool = true
+    public init(
+        items: [Content],
+        duration: TimeInterval = 2,
+        isLoading: Bool = true
+    ) {
+        self.items = items
+        self.duration = duration
+        
+        self.isLoading = isLoading
+    }
     
-    public var duration: TimeInterval = 5
+    private var items: [Content]
+    private var isLoading: Bool
+    
+    private var duration: TimeInterval
     
     @State private var angle: Double = 0
     
@@ -22,7 +33,7 @@ public struct BaseCirclesLoaderView<Content: View>: View {
             let size = min(
                 geometry.size.width,
                 geometry.size.height
-            ) - 20
+            )
             
             ZStack {
                 ForEach(
@@ -30,14 +41,15 @@ public struct BaseCirclesLoaderView<Content: View>: View {
                     id: \.self
                 ) { index in
                     items[index]
+                        .padding(size * 0.02)
+                        .frame(
+                            width: (3.14 * size) / Double(items.count)
+                        )
                         .rotation3DEffect(
                             .degrees(
-                                Double(index * 360) / Double(items.count) + angle
+                                angle
                             ),
                             axis: (x: 1.0, y: 0.0, z: 0.0)
-                        )
-                        .frame(
-                            width: (3.14 * size) / (Double(items.count) * 1.3)
                         )
                         .frame(
                             width: size,
@@ -69,7 +81,7 @@ public struct BaseCirclesLoaderView<Content: View>: View {
                     )
                     .repeatForever(autoreverses: false)
                 ) {
-                    angle = -720
+                    angle = -360
                 }
             } else {
                 withAnimation {
@@ -83,9 +95,11 @@ public struct BaseCirclesLoaderView<Content: View>: View {
                     .linear(
                         duration: self.duration
                     )
-                    .repeatForever(autoreverses: false)
+                    .repeatForever(
+                        autoreverses: false
+                    )
                 ) {
-                    angle = -720
+                    angle = -360
                 }
             }
         }
@@ -98,8 +112,11 @@ public struct BaseCirclesLoaderView<Content: View>: View {
         items: Array(
             repeating: Image(
                 systemName: "circle.fill"
-            ).resizable().scaledToFit().padding(16),
-            count: 10
+            )
+            .resizable()
+            .scaledToFit()
+            .padding(5),
+            count: 16
         )
     )
 }

@@ -9,22 +9,45 @@ import SwiftUI
 
 public struct ConcentricCirclesLoaderView: View {
     
-    public var lineWidth: CGFloat = 2
+    public init(
+        lineWidth: CGFloat = 2,
+        maxDepth: Int = 7,
+        startDepth: Int = 0,
+        duration: TimeInterval = 10
+    ) {
+        self.lineWidth = lineWidth
+        self.maxDepth = maxDepth
+        self.startDepth = startDepth
+        
+        self.duration = duration
+    }
     
-    public var maxDepth: Int = 5
-    fileprivate var depth: Int = 0
+    private var lineWidth: CGFloat
+    
+    private var maxDepth: Int
+    private var startDepth: Int
+    
+    private var duration: TimeInterval
     
     @State private var angle = 0.0
+    
+    func getColor() -> Color {
+        return .init(
+            hue: .random(in: 0...1),
+            saturation: .random(in: 0...1),
+            brightness: .random(in: 0...1)
+        )
+    }
     
     public var body: some View {
         ZStack {
             Circle()
-                .stroke(
-                    lineWidth: lineWidth
+                .fill(
+                    getColor()
                 )
                 .padding(lineWidth / 2)
             
-            if depth < maxDepth {
+            if startDepth < maxDepth {
                 GeometryReader { geometry in
                     
                     let size = min(
@@ -35,10 +58,10 @@ public struct ConcentricCirclesLoaderView: View {
                     ConcentricCirclesLoaderView(
                         lineWidth: lineWidth,
                         maxDepth: maxDepth,
-                        depth: depth + 1
+                        startDepth: startDepth + 1
                     )
                     .frame(
-                        height: size * 0.6
+                        height: size * 0.8
                     )
                     .frame(
                         width: size,
@@ -61,15 +84,13 @@ public struct ConcentricCirclesLoaderView: View {
         .onAppear {
             withAnimation(
                 .easeInOut(
-                    duration: Double(
-                        5
-                    )
+                    duration: duration
                 )
                 .repeatForever(
                     autoreverses: false
                 )
             ) {
-                angle = 360 * Double(depth + 1)
+                angle = 360 * Double(startDepth + 1)
             }
         }
     }
@@ -77,6 +98,8 @@ public struct ConcentricCirclesLoaderView: View {
 
 #Preview {
     ConcentricCirclesLoaderView(
-        maxDepth: 5
+        lineWidth: 1,
+        maxDepth: 5,
+        duration: 10
     )
 }

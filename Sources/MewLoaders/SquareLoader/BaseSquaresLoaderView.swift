@@ -7,19 +7,12 @@
 
 import SwiftUI
 
-struct BaseSquaresLoaderView<Content: View>: View {
+public struct BaseSquaresLoaderView<Content: View>: View {
     
-    @Namespace private var nameSpace
-    
-    var items: [Content]
-    var isLoading: Bool
-    
-    var duration: TimeInterval
-    
-    init(
+    public init(
         items: [Content],
-        isLoading: Bool = true,
-        duration: TimeInterval = 10
+        duration: TimeInterval = 10,
+        isLoading: Bool = true
     ) {
         self.items = items
         self.isLoading = isLoading
@@ -33,6 +26,13 @@ struct BaseSquaresLoaderView<Content: View>: View {
         )
     }
     
+    @Namespace private var nameSpace
+    
+    private var items: [Content]
+    private var duration: TimeInterval
+    
+    private var isLoading: Bool
+    
     @State private var index = -1
     @State private var isLineReversed = true;
     @State private var isAttached: [Bool]
@@ -41,7 +41,7 @@ struct BaseSquaresLoaderView<Content: View>: View {
     
     @State private var timer: Timer? = nil
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geometry in
             
             let size = min(
@@ -214,20 +214,11 @@ struct BaseSquaresLoaderView<Content: View>: View {
             .ignoresSafeArea(edges: .all)
         
         BaseSquaresLoaderView(
-            items: [
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-                Rectangle().fill(.black),
-            ],
+            items: Array(
+                repeating: Rectangle().fill(.black),
+                count: 8
+            ),
+            duration: 4,
             isLoading: true
         )
         .padding()
